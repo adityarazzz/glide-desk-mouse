@@ -1,0 +1,16 @@
+# environment
+.venv/
+__pycache__/
+*.pyc
+
+# personal: your calibration, settings, recordings and misfire reports
+profile.json
+config.json
+logs/
+
+# machine state: the running app's local token and the window's browser profile
+models/.instance.json
+models/webview/
+
+# design tool state
+.impeccable/

@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glide</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24"><path d="M8 13V5.5a1.5 1.5 0 0 1 3 0V11m0-6.5V4a1.5 1.5 0 0 1 3 0v7m0-5.5a1.5 1.5 0 0 1 3 0V12m0-3.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-1.5a6 6 0 0 1-4.7-2.3L4.2 15.4a1.6 1.6 0 0 1 2.5-2z"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></symbol>
+  <symbol id="i-rec" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M7 7l10 10M17 7 7 17"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4 2.8 19.5h18.4z"/><path d="M12 10v4.5M12 17.2v.1"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><rect x="3" y="7" width="13" height="10" rx="2"/><path d="m16 11 5-3v8l-5-3"/></symbol>
+  <symbol id="i-redo" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-ring" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21"/></symbol>
+</svg>
+
+<div class="app">
+  <nav class="rail" aria-label="Glide">
+    <div class="brand"><span class="wordmark">Glide</span><span class="num">desk mouse</span></div>
+    <div class="nav">
+      <a href="#home" data-view="home"><svg class="i"><use href="#i-home"/></svg>Home</a>
+      <a href="#gestures" data-view="gestures"><svg class="i"><use href="#i-hand"/></svg>Gestures</a>
+      <a href="#settings" data-view="settings"><svg class="i"><use href="#i-sliders"/></svg>Settings</a>
+      <a href="#training" data-view="training"><svg class="i"><use href="#i-rec"/></svg>Training</a>
+    </div>
+    <div class="power">
+      <strong id="power-label">Glide is on</strong>
+      <button class="switch" id="power" role="switch" aria-checked="true" aria-label="Glide on or off"></button>
+      <small><kbd>Ctrl</kbd> <kbd>Alt</kbd> <kbd>G</kbd> pauses</small>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Home -->
+    <section class="view" id="view-home" aria-labelledby="home-title">
+      <div class="banner" id="calib-banner" hidden>
+        <svg class="i"><use href="#i-alert"/></svg>
+        <p>The camera setup changed since Glide last learned your hand. Recalibrate so clicks stay accurate.</p>
+        <button class="btn primary" data-cmd="setup" data-step="calibrate">Recalibrate</button>
+      </div>
+      <div class="banner" id="desk-banner" hidden>
+        <svg class="i"><use href="#i-alert"/></svg>
+        <p id="desk-text"></p>
+        <button class="btn" id="desk-ok">Got it</button>
+      </div>
+      <div class="banner" id="light-banner" hidden>
+        <svg class="i"><use href="#i-sun"/></svg>
+        <p id="light-text"></p>
+        <button class="btn" id="light-ok">Got it</button>
+      </div>
+      <div class="banner" id="room-banner" hidden>
+        <svg class="i"><use href="#i-camera"/></svg>
+        <p id="room-text"></p>
+        <a class="btn quiet" href="#gestures">How to reach far</a>
+        <button class="btn" id="room-ok">Got it</button>
+      </div>
+      <div class="head">
+        <div>
+          <h1 id="home-title">Glide is on</h1>
+          <p class="sub" id="home-sub">Slide your hand on the desk to move the cursor.</p>
+        </div>
+      </div>
+      <div class="home">
+        <div class="stage-slot" data-slot="home"></div>
+        <div class="now">
+          <div class="readout" aria-live="polite">
+            <div class="state-word" id="state-word">No hand</div>
+            <p class="state-hint" id="state-hint">Rest your hand flat under the camera.</p>
+            <div class="hold" id="hold"><i></i></div>
+          </div>
+          <dl class="facts">
+            <dt>Hand</dt><dd id="f-hand">Not seen</dd>
+            <dt>Camera</dt><dd id="f-cam">-</dd>
+            <dt>Room to slide</dt><dd id="f-room">-</dd>
+          </dl>
+          <div class="tune">
+            <label for="speed-home">Pointer speed</label>
+            <div class="slider"><input type="range" id="speed-home" min="0.5" max="2" step="0.05" data-setting="gain.speed"><output class="num"></output></div>
+            <p class="note" id="learned-note"></p>
+          </div>
+          <div class="row-btns">
+            <button class="btn" data-cmd="setup" data-step="calibrate"><svg class="i"><use href="#i-redo"/></svg>Recalibrate</button>
+            <a class="btn quiet" href="#gestures">Gesture guide<svg class="i"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gestures -->
+    <section class="view" id="view-gestures" aria-labelledby="g-title">
+      <div class="head"><div>
+        <h1 id="g-title">Gestures</h1>
+        <p class="sub">Each hand is drawn at the same scale on the same centimetre grid. Keep your hand on the desk; the camera looks down at it.</p>
+      </div></div>
+      <div class="plates" id="plates"></div>
+    </section>
+
+    <!-- Settings -->
+    <section class="view" id="view-settings" aria-labelledby="s-title">
+      <div class="head"><div><h1 id="s-title">Settings</h1><p class="sub">Changes apply right away.</p></div></div>
+      <div class="settings">
+        <div class="group"><h2>Pointer</h2><div class="rows">
+          <div class="srow"><div><b>Pointer speed</b><span>How far the cursor travels for each centimetre your hand slides</span></div>
+            <div class="slider"><input type="range" min="0.5" max="2" step="0.05" data-setting="gain.speed" aria-label="Pointer speed"><output class="num"></output></div></div>
+          <div class="srow"><div><b>Feel</b><span>Steady adds extra smoothing and slower timing for shaky hands</span></div>
+            <div class="seg" role="radiogroup" data-setting="preset" aria-label="Feel">
+              <button role="radio" data-value="">Balanced</button><button role="radio" data-value="accessibility">Steady</button><button role="radio" data-value="fast">Fast</button></div></div>
+          <div class="srow"><div><b>Edge glide</b><span>Hold your hand at the edge of the view to keep the cursor moving</span></div>
+            <button class="switch" role="switch" data-setting="edge.enabled" aria-label="Edge glide"></button></div>
+        </div></div>
+        <div class="group"><h2>Clicking and scrolling</h2><div class="rows">
+          <div class="srow"><div><b>Right-click hold</b><span>How long to hold a pinch before it becomes a right click</span></div>
+            <div class="slider"><input type="range" min="600" max="2000" step="50" data-setting="click.long_ms" aria-label="Right-click hold"><output class="num"></output></div></div>
+          <div class="srow"><div><b>Scroll gesture</b><span>The pose that scrolls when you slide forward or back</span></div>
+            <div class="seg" role="radiogroup" data-setting="scroll.gesture" aria-label="Scroll gesture">
+              <button role="radio" data-value="two_finger">Two fingers</button><button role="radio" data-value="fist">Fist</button></div></div>
+          <div class="srow"><div><b>Scroll speed</b><span>Lines per centimetre of hand movement</span></div>
+            <div class="slider"><input type="range" min="6" max="30" step="1" data-setting="scroll.units_per_mm" aria-label="Scroll speed"><output class="num"></output></div></div>
+          <div class="srow"><div><b>Natural scrolling</b><span>Content follows your hand, like a touchscreen</span></div>
+            <button class="switch" role="switch" data-setting="scroll.natural" aria-label="Natural scrolling"></button></div>
+        </div></div>
+        <div class="group"><h2>Feedback</h2><div class="rows">
+          <div class="srow"><div><b>Cursor ring</b><span>A small ring next to the cursor shows what your hand is doing</span></div>
+            <button class="switch" role="switch" data-setting="feedback.overlay" aria-label="Cursor ring"></button></div>
+          <div class="srow"><div><b>Sounds</b><span>A soft tick on every click, drag and scroll</span></div>
+            <button class="switch" role="switch" data-setting="feedback.sound" aria-label="Sounds"></button></div>
+          <div class="srow"><div><b>Appearance</b><span>Follow Windows, or always light or dark</span></div>
+            <div class="seg" role="radiogroup" id="theme" aria-label="Appearance">
+              <button role="radio" data-theme-value="">System</button><button role="radio" data-theme-value="light">Light</button><button role="radio" data-theme-value="dark">Dark</button></div></div>
+        </div></div>
+        <div class="group"><h2>Hand and camera</h2><div class="rows">
+          <div class="srow"><div><b>Hand</b><span>The hand you use as the mouse. Changing it needs a recalibration.</span></div>
+            <div class="seg" role="radiogroup" data-setting="hand.dominant" aria-label="Hand">
+              <button role="radio" data-value="right">Right</button><button role="radio" data-value="left">Left</button></div></div>
+          <div class="srow"><div><b>Camera</b><span>The camera that looks down at your desk</span></div>
+            <div style="display:flex;gap:8px"><select id="cam-select" aria-label="Camera"></select><button class="btn" id="cam-find">Find cameras</button></div></div>
+          <div class="srow"><div><b>Calibration</b><span>Teach Glide your hand again: hold still, then five pinches</span></div>
+            <div class="row-btns"><button class="btn" data-cmd="setup" data-step="calibrate">Recalibrate</button><button class="btn quiet" data-cmd="setup" data-step="welcome">Run full setup</button></div></div>
+        </div></div>
+        <div class="group"><h2>About</h2><div class="rows">
+          <div class="srow"><div><b>Glide</b><span id="about-version">Bare-hand desk mouse, P1 prototype</span></div><span></span></div>
+          <div class="srow"><div><b>Privacy</b><span>Camera images never leave this computer and are never saved. Training recordings store hand positions only.</span></div><span></span></div>
+          <div class="srow"><div><b>Reset settings</b><span>Back to the defaults. Your camera choice and calibration are kept.</span></div>
+            <button class="btn" data-cmd="reset_settings">Reset</button></div>
+          <div class="srow"><div><b>Quit Glide</b><span>Stops the hand mouse. Closing the window only hides it.</span></div>
+            <button class="btn" data-cmd="quit">Quit</button></div>
+        </div></div>
+      </div>
+    </section>
+
+    <!-- Training -->
+    <section class="view" id="view-training" aria-labelledby="t-title">
+      <div class="head"><div>
+        <h1 id="t-title">Training</h1>
+        <p class="sub">Record a short guided session. Each step shows the movement, waits until you are ready and tells you if it was seen. Glide is tuned on these recordings. Only hand positions are saved, never camera images.</p>
+      </div></div>
+      <div class="session pt-card">
+        <div><b>Pointing test</b><span>The standard test for pointing devices (ISO 9241-411): four rounds of nine clicks. Run it with Glide, then with your mouse or touchpad, to compare them.</span></div>
+        <span class="num">2 min</span>
+        <div class="row-btns"><button class="btn primary" data-pointing="glide">With Glide</button><button class="btn" data-pointing="mouse">With mouse or touchpad</button></div>
+      </div>
+      <div class="pt-compare" id="pt-compare" hidden></div>
+      <h2 style="margin:32px 0 6px">Guided recordings</h2>
+      <div class="sessions" id="sessions"></div>
+      <h2 style="margin:32px 0 6px">Your recordings</h2>
+      <table><thead><tr><th>When</th><th>Session</th><th>Result</th></tr></thead><tbody id="past"></tbody></table>
+    </section>
+  </main>
+</div>
+
+<!-- live camera stage, moved into whichever screen is showing -->
+<template id="stage-tpl">
+  <div class="stage mat-grid">
+    <img alt="Live camera view of your desk, turned so your fingers point up">
+    <canvas></canvas>
+    <div class="stage-msg" hidden><h2></h2><p class="sub"></p></div>
+    <div class="legend">1 square = 1 cm at your hand</div>
+  </div>
+</template>
+
+<!-- First-run setup -->
+<section class="flow" id="setup" aria-label="Setup">
+  <div class="signs" id="signs"></div>
+  <div class="flow-body">
+    <div class="visual" id="setup-visual"></div>
+    <div class="side" id="setup-side"></div>
+  </div>
+  <div class="flow-foot" id="setup-foot"></div>
+</section>
+
+<!-- Coached recording -->
+<section class="flow" id="record" aria-label="Training session">
+  <div class="rec-head">
+    <div><div class="meta" id="rec-meta"></div><h1 id="rec-title"></h1></div>
+    <div class="dots" id="rec-steps"></div>
+  </div>
+  <div class="rec-body" id="rec-body">
+    <div><span class="tag">YOUR HAND</span><div class="stage-slot" data-slot="record" style="position:absolute;inset:0"></div><div class="big-num" id="rec-big"></div><div class="ring-wrap" id="rec-ring"></div></div>
+    <div class="mat-grid"><span class="tag">DO THIS</span><canvas id="rec-demo" style="position:absolute;inset:0;width:100%;height:100%"></canvas><div class="note" id="rec-note"></div></div>
+  </div>
+  <div class="flow-foot" id="rec-foot" style="display:block">
+    <div class="rec-text">
+      <p class="rec-how" id="rec-how"></p>
+      <div class="dots" id="rec-trials"></div>
+      <p class="rec-status" id="rec-status" aria-live="polite"></p>
+      <div class="row-btns" id="rec-btns">
+        <button class="btn primary" data-coach="go">Start <kbd>Space</kbd></button>
+        <button class="btn" data-coach="toggle_pause">Pause <kbd>P</kbd></button>
+        <button class="btn" data-coach="redo">Redo step <kbd>R</kbd></button>
+        <button class="btn" data-coach="skip">Skip <kbd>S</kbd></button>
+        <button class="btn quiet" data-coach="stop">Stop and save <kbd>Esc</kbd></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pointing test (ISO 9241-411 multi-directional tapping), measured in the page -->
+<section class="flow" id="pointing" aria-label="Pointing test">
+  <div class="rec-head">
+    <div><div class="meta" id="pt-meta"></div><h1 id="pt-title">Pointing test</h1></div>
+    <div class="dots" id="pt-rounds"></div>
+  </div>
+  <div class="pt-body">
+    <div class="board pt-board" id="pt-board" aria-label="Click the highlighted circle each time"></div>
+    <div class="pt-result" id="pt-result" hidden></div>
+  </div>
+  <div class="flow-foot">
+    <p class="sub" id="pt-hint" aria-live="polite"></p>
+    <div class="row-btns" id="pt-btns"><button class="btn quiet" data-pt="close">Stop <kbd>Esc</kbd></button></div>
+  </div>
+</section>
+
+<div class="toast" id="toast" role="status"></div>
+<script src="app.js"></script>
+</body>
+</html>

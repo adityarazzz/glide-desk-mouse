@@ -1,0 +1,4 @@
+{
+  "_how": "One entry per manual test point. result: pass | fail. value: what you measured. note: anything worth saying. Then run: .venv\\Scripts\\python -m glide.report --live 20",
+  "_example": {"result": "pass", "value": "24 s", "note": "timed with a phone stopwatch"}
+}
